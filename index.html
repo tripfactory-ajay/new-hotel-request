@@ -1,1 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripFactory — New Contract Intake Form</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --tf-blue: #1C3766;
+    --tf-blue-mid: #254d99;
+    --tf-blue-light: #EEF2FA;
+    --tf-red: #E63129;
+    --tf-yellow: #F7C000;
+    --tf-green: #3AAA35;
+    --tf-blue-bar: #1A7DC4;
+    --tf-navy: #1C3766;
+    --tf-navy-mid: #254d99;
+    --tf-cream: #F8FAFD;
+    --tf-sand: #EEF2FA;
+    --tf-border: #D5DEF0;
+    --tf-muted: #6B7A99;
+    --tf-text: #1A1A1A;
+    --tf-danger: #E63129;
+    --tf-success: #3AAA35;
+    --tf-info: #1A7DC4;
+    --section-gap: 2.5rem;
+    --field-gap: 1.25rem;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--tf-cream);
+    color: var(--tf-text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--tf-navy);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .logo-block {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+  }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--tf-blue-mid);
+    line-height: 1.1;
+  }
+  .logo-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 48px;
+    background: rgba(255,255,255,0.3);
+  }
+  .header-title h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: white;
+    line-height: 1.2;
+  }
+  .header-title p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 6px;
+  }
+  .header-accent { display: none; }
+  .colour-bar {
+    display: flex;
+    height: 6px;
+    width: 100%;
+  }
+  .colour-bar span { flex: 1; display: block; }
+  .cb-red { background: #E63129; }
+  .cb-yellow { background: #F7C000; }
+  .cb-green { background: #3AAA35; }
+  .cb-blue { background: #1A7DC4; }
+
+  .mandatory-note {
+    background: rgba(28,55,102,0.08);
+    border-left: 3px solid #F7C000;
+    padding: 0.75rem 3rem;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.7);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .mandatory-note strong { color: #F7C000; }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem 4rem;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: var(--section-gap);
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--tf-border);
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--tf-sand);
+    border-bottom: 1px solid var(--tf-border);
+    padding: 1rem 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--tf-navy);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11.5px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--tf-navy);
+  }
+  .section-body {
+    padding: 1.5rem 1.75rem;
+  }
+
+  /* ── FIELDS ── */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--field-gap);
+  }
+  .field-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--field-gap);
+  }
+  .field-full { grid-column: 1 / -1; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  label {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--tf-slate);
+    letter-spacing: 0.02em;
+  }
+  label .req { color: #E63129; margin-left: 2px; }
+  label .opt { color: var(--tf-muted); font-weight: 400; font-size: 11px; margin-left: 4px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--tf-border);
+    border-radius: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13.5px;
+    color: var(--tf-text);
+    background: var(--tf-cream);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: #1A7DC4;
+    box-shadow: 0 0 0 3px rgba(26,124,196,0.15);
+    background: white;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  select { appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A7D6B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  /* ── RATES TABLE ── */
+  .rates-table-wrap { overflow-x: auto; margin-top: 0.5rem; }
+  .rates-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    min-width: 820px;
+  }
+  .rates-table th {
+    background: var(--tf-navy);
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+    padding: 9px 10px;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+  }
+  .rates-table th .req { color: var(--tf-blue-mid); }
+  .rates-table td {
+    border-bottom: 1px solid var(--tf-border);
+    padding: 5px 4px;
+    vertical-align: top;
+  }
+  .rates-table tr:nth-child(even) td { background: var(--tf-cream); }
+  .rates-table input, .rates-table select {
+    padding: 6px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+  .rates-table input[type="number"] { width: 90px; }
+  .rates-table input[type="date"] { width: 135px; }
+  .rates-table input[type="text"] { width: 120px; }
+  .rates-table select { width: 105px; }
+  .add-row-btn {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px dashed #1A7DC4;
+    color: #1C3766;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background 0.15s;
+  }
+  .add-row-btn:hover { background: rgba(201,168,76,0.08); }
+  .del-row { background: none; border: none; color: #C0392B; cursor: pointer; font-size: 16px; line-height: 1; padding: 4px 6px; border-radius: 4px; }
+  .del-row:hover { background: #fdecea; }
+
+  /* ── POLICY BLOCK ── */
+  .policy-block {
+    border: 1px solid var(--tf-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background: var(--tf-cream);
+    position: relative;
+  }
+  .policy-block .del-policy {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: none; border: none; color: #C0392B; cursor: pointer; font-size: 14px;
+  }
+
+  /* ── RADIO / CHECKBOX ── */
+  .radio-group, .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 4px;
+  }
+  .radio-group label, .check-group label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 400;
+    color: var(--tf-text);
+    cursor: pointer;
+    font-size: 13.5px;
+  }
+  input[type="radio"], input[type="checkbox"] {
+    width: 15px; height: 15px;
+    accent-color: var(--tf-blue);
+    cursor: pointer;
+  }
+
+  /* ── FILE UPLOAD ── */
+  .file-zone {
+    border: 2px dashed var(--tf-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    background: var(--tf-cream);
+  }
+  .file-zone:hover { border-color: #1A7DC4; background: rgba(201,168,76,0.04); }
+  .file-zone input { display: none; }
+  .file-zone-label { font-size: 13px; color: var(--tf-muted); }
+  .file-zone-label strong { color: var(--tf-blue); }
+  .file-list { margin-top: 0.75rem; font-size: 12.5px; color: var(--tf-slate); text-align: left; }
+  .file-list div { padding: 4px 0; border-bottom: 1px solid var(--tf-border); display: flex; justify-content: space-between; }
+  .remove-file { color: #E63129; cursor: pointer; background: none; border: none; font-size: 13px; }
+
+  /* ── IMPORTANT NOTICE ── */
+  .notice {
+    background: rgba(21,101,192,0.06);
+    border: 1px solid rgba(26,124,196,0.25);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    color: #0D3B7A;
+    margin-bottom: 1.5rem;
+  }
+  .notice strong { display: block; margin-bottom: 4px; color: #0A2F60; font-size: 13.5px; }
+
+  /* ── SUBMIT AREA ── */
+  .submit-area {
+    background: white;
+    border: 1px solid var(--tf-border);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+    text-align: center;
+  }
+  .submit-area p { font-size: 13px; color: var(--tf-muted); margin-bottom: 1.25rem; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    border-radius: 7px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--tf-navy);
+    color: #F7C000;
+    border: 1px solid #1C3766;
+  }
+  .btn-primary:hover { background: var(--tf-navy-mid); }
+  .btn-secondary {
+    background: white;
+    color: var(--tf-slate);
+    border: 1px solid var(--tf-border);
+  }
+  .btn-secondary:hover { background: var(--tf-sand); }
+  .btn-pdf {
+    background: #F7C000;
+    color: #1C3766;
+    border: 1px solid #d4a400;
+    font-weight: 600;
+  }
+  .btn-pdf:hover { background: var(--tf-blue-light); }
+
+  /* ── VALIDATION TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--tf-navy);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--tf-blue-mid);
+    font-size: 13px;
+    max-width: 340px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 9999;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.error { border-left-color: #E63129; }
+  #toast.success { border-left-color: var(--tf-success); }
+
+  /* ── PRINT / PDF ── */
+  @media print {
+    body { background: white; font-size: 11px; }
+    .header-accent, .btn-row, .add-row-btn, .del-row, .del-policy, .remove-file { display: none !important; }
+    .section { break-inside: avoid; page-break-inside: avoid; box-shadow: none; }
+    .header { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .rates-table th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .section-header { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    #toast { display: none !important; }
+    .main { padding: 1rem; }
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--tf-navy-mid);
+    padding: 0.6rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .progress-label { font-size: 11.5px; color: rgba(255,255,255,0.55); white-space: nowrap; }
+  .progress-track { flex: 1; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; }
+  .progress-fill { height: 4px; background: var(--tf-blue-mid); border-radius: 2px; transition: width 0.4s; }
+  .progress-pct { font-size: 11.5px; color: var(--tf-blue-mid); font-weight: 500; min-width: 36px; text-align: right; }
+
+  /* divider */
+  .field-divider { border: none; border-top: 1px solid var(--tf-border); margin: 1.25rem 0; }
+  .hint { font-size: 11.5px; color: var(--tf-muted); margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div style="background:var(--tf-navy);">
+  <div class="header-inner">
+    <div class="logo-block">
+<img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAClAZADASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIBQYBBAkDAv/EAE4QAAEDAwIDBAQICQkGBwAAAAEAAgMEBREGBxIhMQgTQVEUFXGRImGBk6GxwdEWGCMyUlRWlNIzQlNVcoKVouEXNGKSssIkNTY3Q4Oz/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAIDBAEFBv/EAC8RAAICAQMDAgUDBAMAAAAAAAABAgMRBBIhEzFBFFEFI1OhohVUcSIyYZFSgeH/2gAMAwEAAhEDEQA/ALloiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIi+TJY3SOjbI0yMxxNDgSM9M+WUB+yQBldK3XW13J88dBcKSrfTvDJ2wTNeYnEZ4XYJwceBUe9ovRd51foeT1Dca6Gvo+KUUcM7mR1rcfCjc0EAuwMtJ8eXQ8qZ6W1Be9KXhl0sNfPbqyI4Jj5BwB5te08nNyOYIPvWqjTdaLafPsUWXbHhrg9HVwoP2f7QNl1L3Np1UIbNdzhrJi7FNUnwwT+Y4/ouOPInopwHMcjlUTrlW8SRZGSkspnKIigTCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIuHOABJIACAJyWJr9S6dtwd6ffrXScPXv6uNmPeVrVx3g2yoXFs+tLS4jqIZTL/wBAK6oSfZMi5xXk3tFEdw7RO2NKSIrlX1uP6Chk+twAWvXDtR6Qj4hQ6fvlSR0LxFGD/nJHuVq09j7JkXbBeSfeS5VY7h2qpCCKDRQHk6e4/Y1n2rAVvah1pKCKSxWGmz0LhLIR/mAU1orX4IvUQ9y3eUVW9tu0leqnVFNQaword6uqpGxGopI3MfA5xADiC4gtyefQgcxnGDaQdFVbVKp4kThYprKOEWi1e6OmaXc+Lb2U1YusrW4kEOYQ9zONrC7OcloznGOYGcr4673W09o/Wln0rc4K6SqufAWywxgxxB7yxpdkgnLgeQBIHNR6cvY7uRIC5Kj3eHdK07axWt9yt9ZWm4Sva0QFo4GsxxOJcRk/CGGjmefTC3ynmbNAyZmeF7Q4ZGDgjIyuOLSTx3Opp5PqueSqzuZ2idWWrWF3slittqgpqCrkpWy1Eb5ZHlhLXOOHAAEgkDHTHNaFX7+bp1YIGoYqZp8Kehib9LgT9K0w0VkkmUS1EE8F4gfjTI815+125+4lbxCo1rfCHdRHVGMe5mFga29XuuJNbebnVE9TNVyP+slXL4fLy0ReqXhHohXXyz0AzW3Whph5zVDGfWQsXHr3REtcyhj1dYn1L3BrI218ZLiegGHcz8S88ixrjlzA4+ZGSnCMYLRjyxyU18OXmRD1T9j0xRRf2X7pd7vs9bKi8SSzPjklhglkJLpIWPIYST1wARnxAC/W80O68t3sB28mp2UYmPp4cYxzy3Bfx8zHjiyG88/IvPcMTcc9jVu/pyScijvfO3biXHTdJDt1XtpK1tUDU4lbG98eDjDnAgAOwSOpHn0PY3DtWu7ltc222C8Q0upu6g7+pjeYmyObjvQxwBLMnODj4uWeXFFPHPc7ufPBt95omXO01dvfLNCyphfE6SF5Y9gcCMtI5gjOQR4hUi0rqTUmz261YyrM1S6nqDTXOF7yfS4gchwJ/nYIe1x88dCVcnbqiv8AbtFWqi1TXtr7zFAG1VQ05D3ZOOeBkgYBOOZBPion7TW0dy1hU02pdLU8U11iZ3FVTmRsZnjGS1wJwC5uSMEjII8hnRppxjJwl2ZTbFtKUe6M7cO0RtjS07ZIrnW1r3NDu6p6GTiGfAlwABHjzVWd3b/pvU+taq+6atdXbYKv8pURVBZ8KbJy9oaSADyJGT8LJ8V+a/bTcKic5tTou+jh6llI6QfIWZBXR/AnWecfgjqD/DZv4V6FNNNT3Rf3Mtlk5rDRgfAgjIPUHxUo7Z75aw0VQm2u7u9W9rMQQ1kjgYD4cLxk8P8AwnI8uFatT7c6/qADDorUDgehNBIB7yAs1btk90a4gR6SqYR51E8UQHvdn6FZZKmaxNojFWReUmbPW9pfcOaUugprFTM8GCke/wCkyLN6V7UN9gqGM1Lp6irKfOHSULjDIB5hriQfZke1Yiy9mbXtWQbhXWa2t5ZBmdM/3NaB/mUi6V7MGmaJ7ZdRXuvuzhgmGECniJ8jglxHyhZJvSpYx/ovirm85Jh0Rqmzay0/BfbFUmeklJb8Jpa+N4OHMc09HA9R7CMggrPYWL07Y7Tp60w2qyW+CgoYc93DC3hAycknxJJ5knJPispleY8Z47GxZxyEREOhERAEREAREQBERAEREAREQBERAcBVg7V+l9wLzrOlqbPb7xc7KKJrY46IOeyKQOdx8TGnqfgnJHMYGeStAhVlVrqluSITgpLDPPJu3eunu+Doi/k+fqyTPvwuzDtjuLIDwaIv4/tUhb9eF6B/ImPiWv8AUJeyKPSr3POfU2ltR6ZfAzUFmrLY6pDjCKhgBeGkBxAyemR713tB6C1Vrh1W3TNtbWmj4DPmojj4OLPD+cRnPCenkpb7bk4dq/T1MDzZb5ZCP7UgH/aux2HpeG/anhz+dS07sex8g+1a3fLodTyUKpdTZ4NLh7PW6TwOKz0MRPg+4x5Huyu1H2cdzHDnT2dntr/uaVdFFh9db/g0emgVO0j2ZtUi90c+oLraoKGKZskzKZ75JXhpB4RloAzjGSeWc4KtiPJcqIN+9449u5qa0263x3C71MXfcMzy2KGPiIBdjm4kg4AxyBJPTNUpWaiSXdk1GNSySPJpuwSakj1JJZ6J14jj7plaYR3wbgjAd16Ej2EjovtXWSz19fSXCttdHVVlGSaaeWBrpISfFjiMt+RQ3sjv0daaiZpvUFsp7fX1AcaSame4xSloJLCHc2nAJByQcEcjjM7clXOE63iXclGUZLKOncbbbri2JtfQU1WIniSMTwtk4Hjo4cQOCPMc13ERQLCN9TbK7dahu1Td7hY3CtqpDLNJDVSx8bz1JAdjJ8cDmqdbpWu3WTcW+2a0xGOhoqx0MLHPLyAAAQSeZ556r0M8F567rzNqd0NUztIc113qcEHqBIR9i9HQSk5NN8JGPUxSSaRZLarZPbq8be2C8XOyS1NZWUEU87zWzNDnOaCTgOAA+ILcIti9qo8EaRp3Efp1Ezvrestsj/7Q6Ux/VUH/AEBbksk7Z7nyzRGuOFwaDBs3thEAG6LtJx+lGXfWSu5BtbtzAQY9E2HIORmiYfrBW5/Iig7JvyyW2PsfClp4KSmjpqWGOCGNoayONga1gHQADkAPIL7oigSCIupda6nttsqrhVP4YKWF80rgMkNaCScewFAdtcFQBoHtH0upNcUlhqtNy0NJcJxBSVDajvHtc44b3jeEAAnAOCcZ8RzU/jp1U51yreJIjGal2OcBcYXKKBIIAB0REAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREBT/ALaU4k3Pt8IPOK0R5HlmWQ/Yu72I5Ma11BH+lbY3e6XH2rAdr2bvN5J2Zz3Vupm+zPGftWb7Euf9oF7Hh6qH/wCzV6zWNIYIv55bZBhafvLerrp7bC/3iysLq+mpS6E8PFwEkAyY8eEEu/u81UzY/cCew7mwXvU+prm23Pjm9NMkss/fOLSGgtGcniIdnHLHgsFWnlZFyXg1TtUJJPyXjVf+09tHfdXXOl1PpmNlXWRU/o1TRl4Y57WuLmvYXEAkcRBaSM8iPEKR9AbqaM1zcJrdYLlJJWRRmV0E1O+JxYCAXN4hggEjODkZUNdqLc/V9i1xFpvT12ktdNT0kU8r4Gt7yWR5ceZIJAAA5Drk5zyUtPGyNuI8P/JG1wcMvlHT7Pey2raDXFHqfU9CbVS21xlihfI10s0uCG8mk4aMkkk5OAAOpXS7Tm5+qRryu0paLrU2y228RseKV5jkne5gc4uePhYHEAGggcsnOeUvdmTXF91xoirnv4bLVUNWaYVTWBnft4GuBIHLiHFgkAA8jjOVV7fqV028mqnuJJFeWDPk1rQPqWqrNl76iWUUzxCpbfJZnss3S4zbRsuOoLvPU95XTiGWtnyWxtIaGhzjkjLXEZPiVL0UjJIw+N7XtIyHNOQfYVRvbfbHWu5GnZZ6OtbFabYHx0jKuRxjfISXOjjaMhpyclxGMkDnzw2E3Dumh9Z0dJPVTepKucU9bSSPJZHxEN7wA8muacE46gOB8MV2aVScnF5a8EoXNJJrj3LtXe62yz0vpN0uNJQwA47ypmbG33uIC879V1EdXqq71cUjZI57hUSseDkOa6RxBB8iCCrk7y7OUW5N2o7nVX+uoH0tOYGRMibJHzcXFwDujjkAkHmAPJUlqQIZZmtdxCNzgCRjIaSM/QrNBGPLzyR1LeUscFiNG9o216Z0XZbDHpevrZbfRRU8kjqlkbXOa0AkcicZHjhSXsxvVR7jX+qsosFTbKmGmNQ1xnbMxzQ5rTkgAg5cMcsHn5KP7H2YqC42Shr5dW10MtTTxzPYKSMhhc0OLQc8wCcZXO6Vjs2yG181r03UVEt81HJ6LNcJsCXuWtLpOHhADRg8IA8X5JJAxXONM3th3ZKLsisy7I3PXHaJ0Zp27S2uhp62+TQvLJpKQsbC1wOCA9x+EQeuAR8a2nbHdTS2vLbU1NvqH0M9Jg1NLWFrHxtJwHZyQWk8sg9eRwVVbs+bbM3D1VNDXvmis9ujbJVuiPC55cSGRg45ZwST4AHHMgrpb9aOodD7i1djtfe+r3wRVFO2V5eQ1wILST1Ac04zzxjyypPTVN9NPn3OK6aW9rgvix7HxtcwhzSMgg5BB8VgtdavsWirDJeb/V9xTtIaxrW8Ukrz0YxvUk4PsAJJAGVEvYtkusugLoaupkloI7h3dFG8k93hjTIBnoCSOQ5A581C3aT1w/V+4tXFBOX2q0udS0jQctcQcSyDzJcCAfJoVFem3WuDfC7stldiCl5ZP2ie0PozUeoIbNNS3C0yVMgjp5qtrDG9xOA0lrjwknAGeWTjK0TtB0O8tuqdQ3l1+c7SLmuaI6eoZG1kEhDBG6MgOLueCRnOScjoIp3Y0tT6OtelLeIwy7VFpNfcJATxd5K8ljfi4AMDHjk+KnbtG6gmf2dLGamQ+lXoUXeA9SRGJXn3tHvV6rjCcXBZT45Kt7lFqXdFcNuKTVNRq2ll0ZRyVN4o81MAYxjizh5F2H8jjiHXzCuhsnV7iVmmZn7jUMNLXCf/AMMWhrZHx4HN7WEtBByBjGR1A8YM7E9EHav1BdXtAbS29kXEegMknEefhyjWF3V3G1JujryLS2mKuantEtWKWigikMYqXE472Qt5lp5uAPIAZwTlSvi7rHBJcd2cqahFPLy/BczkvnPLHDEZJZGxsaMlziAB7SeSpJdJ9ebG7gMoIb0+pDY46gR94801ZE4kEFjjy5hzcjmCMgrYe1VrSq1GNLNoqgssdda23FlOJObpHuIPGB14QMDPLPEQs60j3JJ5T8lvqEk8rlFvGlrmhzSCDzByo53n3ZtW2sVFFUUE9yr60OdFTxSCMBjSAXOcc4GSAAASefkox2J3utlHRaV2+dYrnLIe6ovSzMxw43E4PD14QT55AHTktW7aFWJ9zrdSA8qa1Mzz8XySH6gEq03ztkxK5bN0Sx202uqTcHSA1DS0FRQNE76eSGZwdwubgkhw5EYI54Hj5La6aogqWGSCaOVmccTHAjPiMhVTvVQ7TnY9stLFM+CpvtbxEMeQXsdI+RwOPAtY0EfGsr2HaSfvNUVwle2nAp4REHHgLzxuJx0yBgZ64K5PTpRlNPhPB2NzbUWuWWeREWUvCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAo/2q3l++F6H6ENM0fMtP2rbexFETrbUE/g22xt/5pc/YtY7WVFPS703GeZhbHV01PNCSPzmiPgOPYWELfOw9SES6ruOCQ1tNCAPE/lHED6PevWm16X/AEYIL53/AGS92gr/AA6f2jv9RJI1stVTOoqdpPN8koLAB7AS72NKqVqGy2W1bK6YuXoDPXd5rqmT0ovdxNpoiWBoGcYJLeeM8jzWV1/f9ebv7gssTbZUQyU87oqa2NYQKTnh0kpP84Dq44AHJvx5PtTWZmmrhpDTVMS6kt1ibFG7GA53eEPd7SQCfaoaePTahnl8krXuy8cI2jsRWYSXXUWoHj+QhiooiR4uJe7HyNZ71GfaIv1NqLd+91lG4Pp4Xso2OByHd0OFxHxF3FhbbtXuHb9DbC39tFVxDUldcnxUsId+UYHRMAmLeoa0BxB6EgBQvPT1EAhknilY2eMSxukaR3jCSOIE9QSCM+YKvqg3dKcv4RVKSUFFFxOzY6j0v2e477WvEVOTVXCdxP8ANa5w+pgA+RVDv1znvN7r7zV/y9bUyVMg8i9xcR8mcfIpQ1HuRSydn/Te31mle+ukBZc2tYRwNbKS2McuZeS08s8hjqVEkrHxSvjla5r2OLXtIwQ4Egg/GCMJpqmpSk+7f2O2STSS8IvnsXbqax7OachbwsabeyqldjGXSDvHE/K4+5UVrZDW3molpx/vFW90YA/SkJbgfKFOFNvrS02wzNKQw1LdRMo/VrX8H5IRcJb3wdnrwcsdeLn05rUuzXoefV24tHUSQONqtEjKqrkLfglzTmKPPiSQDjyBPkqqYupTnMnY1PbGJdh7nU1rc+V3E6KElxHUkDn9RXmzIe9D3DJ48n4+efvXo/qRxZp64uAJIpJSMdc8B6Lzns0DqqvoaZoLnTTRRgeZc4DH0qGgeFJktT3SPR2yxmG0UkR5FlPG3GOmGgKrPbaqpHa1sVFxHu4ra+UDw4nykE+5gVsWgBuAMDwVYO27ZZvTtP6iawuhMclFI4dGuB7xgPtBf7ln0jXWWS29fLNx7GdrjpNrqm5cAEtwuMri7zbGBG0fIWu96hXtYXGOv3mr4o3NIoqWCmJH6QaXkfJ3mFJ/Z23F0zprY6qfdrlTwz2monLqUyATTcbuNgY08yXF2BjkCDnGCq96hpdR3umrtwK6gmNFXXKRs1U0ZjbM74RaT4NAIaCeWRjqMLVRF9eUpfwUWSXTSRYDR+oWbf8AZIgu0LxHcLj37aTB5meWR7Wkf2Wgu/uqvGgLay865sNplJdHV3Gnhkzzy10g4s+0Z962/QFs1TuvUac0XHxMsViaWyzxtPBBG55c97icgyEHhaPi6Y4isPqmzXjazc9rHwkS2yubVUEkoPBUxtfxRuB8QQAHY6HiHJXVpRco5/qef/CEm3h44XBP+6myV915u2+91d0oqXTzoYI/gFxqAxgIdG1vDgEknBzgB2cEjCiLtJ61pdS6thstmc31HYIzSUvA7LHyDAe8eYGA0HxDSfFbNrPfnVevaGPSuj9PT2+qrR3cxp5jPUSA8i1mAOAHxceYHi3mV0txNmKnRmytNeJ421F7ZXMmubouYpoHMLRGCORa1xaS7xJz0AVNKcJR6r57JFk8NPZ28s++xVWbJsRuZe43mOV0baeN3QhxiIb8uZVqvZgZTne7T7ZyA1vfmPPi4QPx9q1/Sdx1LddPT7c6fo/TBdq+OqdHECZHlgwATnhEeQHFx6cI54W5XLZfdTRd9pLnZKE3GWmcyeCrtz2uLJAASCxxDuRyOhBHtIVslGO9NpN9iEW3hpZSM121Z4n7iWiCNwMkVqBkx1GZXloP/KfetX2hs9wqae57gXNskts0jbZDRmVvE19Q1ju5jAPUMc7jPkS3PVbTa9ndzNxdXuvuvSbVFMW+kTymPvnMaAAyOJpIby5AnAGScE8jNe6Wk6O19n+/aa03RCCnprc4xRM5lwYQ9xJ6lxAJJPMklUO6MIRqi8vyyarcm5tYK79k2zC57uQVs+HMtVHLWPc/pxkCMEn2vJ+RaxvjqqPV+5N5vdKQaQOEFK4fzoogWh3ykF3sIXQ0TqW82SC8WywwOkqtQUrbe18YLpQ1z8kRgdS4HHxA5HNdzc3bjUGgZKBl5gJhrKVkgmjaTGyUg8cJcOWWnA+MHI5LUkla3J91hFWW4YS/k23tG3RkFNo/RNO4d3YrLAZ2gYxNJG3kfjDWg/31MPYuoWwbY11cRh1XdJOfm1jGNH0gqrmsafUBuEF21IJRW3iEVoMow90RJY1xbywCGch5AHoQrk9l+jFHsjYOWHTtlqD/AH5XkfRhZtSlChRT8ltL3WNsk1EReYbQiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgI03z2rotyLTA5lS2hvFFxei1JZlrg7rG8DmWkgEEcweYzkg/vYDb2p270bNbbjPT1Fxqqp1RUPpySwcg1rQSATgNBzgcyVJAQqfVns2Z4IbI7t2OT5MhibK6VsbRI4AOcBzIHTJ8VFfaK2uqdxLNRT2maCG8W5zu574kMmjdjijLgCQcgEHBGQQeuRLPgi5CbhJSXdHZRUlhlStv+zXqOqvEcusp6WhtkbgZIaafvJpx+iCBhgPick8+QzzE07o7OaZ1xaKGlAdaKq3QiCjqKWNpEcQ6Rlh5OYOoGQQeh5nMl/GislqbJSUm+UQVMEsYIP2z2AsWi7oNQ3i5vvlZR5lpWmARQwuaMh5bklzh1BJwDzxnBFSYHGtvMbn/AAjUVYJ8c8UgJ+tehevaoUWh77Wl3D3FuqJM+XDG4/YvPjSzC6/2mPxNZTj5e8aFu0c5TUpSfJmvio4SRcu9dn/bS6XF1d6qqKNz3cT4qOpdFET44aOTfYMLf9K6csulrRHaLBboaGjjJIjjHUnq4nq5x8SSSsuFyvNlZKSw3k2RglykfiRjZIyx7Q5pGCDzyFV2zbAagtO9FDVRQwTaWpq8VrKgzDibG08bYizrxZAbkAggZyOitMilXbKvOPJyValjPgDosHrXTFo1fp2qsN7pzNR1AH5pw9jhza9rv5rgeYPvyCQs4irTaeUSaTWGVso+yvQtuwkqtXVMtvDs93HRtZM4Z6cZJAPxhvyBT5ZNP2iy6fgsFvoIYrbBF3TKfh4m8PjkHOSSSSTkkkkrL+K48VZO6dn9zIxrjHsjq223UFtp/RrdRU1HDkkRwRNjbk9TgADK+N7stnvdMKe82uiuMIORHVQNlAPmA4HB9iyKKvLzklhdjE2HTlhsTXNstlt9tDh8L0WmZHxePMtAJ+VZGaGOeF8M0bZI3gtexwBa4EYIIPIgjwX1RMt8sYRibLp2wWN0jrNZbdbnS/yhpaZkRf48+EDKy2AiJlvuEkuwX5c0OaWuAII5g+K/SIdNXsW32irHdpLtaNMWuirpM5migAc3PXh/Rz8WFsc0UUzOCWNj29cOaCPcV9flQ9F1yb7s4kkUd7U9yFdvReAHZZRRQUw/uxhzvpeVbjaOh9XbYaZosAGO10/EB5mME/SVWG8bT631xvPffS7PV223VFzmkmrqhmIxBxkAxn/5CWAYAz154AKuBQ00VFRw0kDeGKCNsbB5NaAAPcAtepnFwjFPsjPRF7pNo7CIixmkIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIDRd/ao0ezeqph1NukiHtfhn/cqSbfUslbr3T9JHG6R0t0pgGtGSR3rSfcAT7AvQHUtltuorJVWW704qaGrjMc0RJHE3OeoIIIIBBHMEBatoTaXQ+i7j6yslqIrsFraioldNIxp6hpccNyORIGSOWVro1Cqg1jlme2pzkn4N8b0X5kdwRudjOAThftFkL/AAVsd2matrnAaTpeRI/8xPn/AGF+fxm6z9k6X/ET/ArEeqrb/V9J8y37k9VW3+r6T5lv3L2FrdB9D8meO9Frvr/ZFd/xm6z9k6X/ABE/wJ+M3WfsnS/4if4FYj1Vbf6vpPmW/cnqq2/1fSfMt+5d9boPofkx6LXfX+yIKo+0NVVFM2Y6Ypm8Q6enk45kfoL6/wC3+p/Zum/fj/Cpw9WW7GPQaUf/AEt+5BbKD9Spvmm/cvnLq7Z2SlCWE3wsdkfZabW6CumELaN0kuXuay/cg/8AGAqv2bpv34/wp+MBVfs3Tfvx/hU4+q7f+pU3zTfuT1Xb/wBSpvmm/cq+hqPqfY0fqPwv9r+TI62/3Rm1S2tc+0Q0voxYBw1BfxcQP/CMdFtX4Sv/AFZnzn+iz0NHSwgiKmhjz14WAZ9wX07mL+jZ7l4Wr+FfGLLXKrWbYvstqZ512o005twqwvbJr34TSfqzPnP9E/CaT9WZ85/oth7iL+jb7gncRf0bfcs/6J8d/ffiirr0/wDD7miaz1/Lp/TtRdm26OcxOYAwzcIPE4N64OOqj78YWqz/AOmab9+P8CnmSmp5GFj4I3tPUFgIK+fq23/qNN8037l7vwzSazT1bdTd1JZ74weNr6NRfZu09mxY7YyQV+MNV/szTfvx/gT8YWq/Zmm/fj/Ap19WW79Rpvmm/cnqy3fqVN8037l6O2fuYPQfEP3H4og2n7QNVLPHF+DdMON4bkVx5ZIGfzPjU+NOQDjquoLbb8/7jTcun5Jv3LuKcU13eTfoqNRUn1rN2e3GDlERSNwREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREB//Z" alt="TripFactory" style="height:58px;width:auto;display:block;filter:brightness(0) invert(1);">
+      <div>
+        <div class="logo-sub" style="margin-top:4px;">Contracting Division</div>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-title">
+      <h1>New Contract Intake Form</h1>
+      <p>Hotel &amp; Product Upload Request — Chains &amp; Independent Properties</p>
+    </div>
+    <div class="header-accent"></div>
+  </div>
+  <div class="progress-bar-wrap">
+    <span class="progress-label">Form completion</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+  <div class="mandatory-note">
+    Fields marked <strong>*</strong> are mandatory per TripFactory contracting standards (as per Disha Mooljee, Contracts Team). Completed form + rate file must be submitted to <strong style="color:#F7C000;">contracts@tripfactory.com</strong>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<div class="main">
+<form id="intakeForm" novalidate>
+
+<!-- ① SUBMISSION INFO -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Submission Details</h2>
+  </div>
+  <div class="section-body">
+    <div class="field-grid">
+      <div class="field">
+        <label>Submitted by (TF Staff Name)<span class="req">*</span></label>
+        <input type="text" name="submitter_name" required placeholder="Your full name">
+      </div>
+      <div class="field">
+        <label>Your TripFactory Email<span class="req">*</span></label>
+        <input type="email" name="submitter_email" required placeholder="yourname@tripfactory.com">
+      </div>
+      <div class="field">
+        <label>Submission Date<span class="req">*</span></label>
+        <input type="date" name="submission_date" required id="submissionDate">
+      </div>
+      <div class="field">
+        <label>Department / Team<span class="opt">(optional)</span></label>
+        <input type="text" name="department" placeholder="e.g. Contracting, Product">
+      </div>
+      <div class="field">
+        <label>Property Type<span class="req">*</span></label>
+        <select name="property_type" required>
+          <option value="">Select…</option>
+          <option>Chain / Group (multiple properties)</option>
+          <option>Independent Hotel</option>
+          <option>Apartment / Serviced Residence</option>
+          <option>Resort</option>
+          <option>Villa / Private Property</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Contract Type<span class="req">*</span></label>
+        <select name="contract_type" required>
+          <option value="">Select…</option>
+          <option>New Contract</option>
+          <option>Rate Update / Amendment</option>
+          <option>Renewal</option>
+          <option>New Property within Existing Chain</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ② HOTEL / PROPERTY DETAILS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Hotel / Property Details</h2>
+  </div>
+  <div class="section-body">
+    <div class="field-grid">
+      <div class="field">
+        <label>Hotel / Property Name<span class="req">*</span></label>
+        <input type="text" name="hotel_name" required placeholder="Official property name">
+      </div>
+      <div class="field">
+        <label>Chain / Brand Name<span class="opt">(if applicable)</span></label>
+        <input type="text" name="chain_name" placeholder="e.g. Marriott, Accor, IHG">
+      </div>
+      <div class="field">
+        <label>City<span class="req">*</span></label>
+        <input type="text" name="city" required placeholder="City">
+      </div>
+      <div class="field">
+        <label>Country<span class="req">*</span></label>
+        <input type="text" name="country" required placeholder="Country">
+      </div>
+      <div class="field">
+        <label>State / Region<span class="opt">(optional)</span></label>
+        <input type="text" name="state" placeholder="State or region">
+      </div>
+      <div class="field">
+        <label>Star Rating<span class="req">*</span></label>
+        <select name="star_rating" required>
+          <option value="">Select…</option>
+          <option>1 Star</option>
+          <option>2 Star</option>
+          <option>3 Star</option>
+          <option>4 Star</option>
+          <option>5 Star</option>
+          <option>Unrated / Boutique</option>
+        </select>
+      </div>
+      <div class="field field-full">
+        <label>Full Property Address<span class="req">*</span></label>
+        <input type="text" name="full_address" required placeholder="Street address, postal code">
+      </div>
+      <div class="field">
+        <label>Hotel Website<span class="opt">(optional)</span></label>
+        <input type="text" name="website" placeholder="https://...">
+      </div>
+      <div class="field">
+        <label>Currency for Rates<span class="req">*</span></label>
+        <select name="currency" required>
+          <option value="">Select…</option>
+          <option>USD</option><option>EUR</option><option>GBP</option>
+          <option>INR</option><option>AED</option><option>SGD</option>
+          <option>THB</option><option>IDR</option><option>MYR</option>
+          <option>LKR</option><option>NPR</option><option>BDT</option>
+          <option>PKR</option><option>ZAR</option><option>MUR</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ CONTACT PERSONS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Key Contacts at Property</h2>
+  </div>
+  <div class="section-body">
+    <div class="notice">
+      <strong>Important — Stop Sales / Soldout Notifications</strong>
+      Please inform the hotel to share stop sales / sold-out notifications directly to: <strong>soldout@tripfactory.com</strong>
+    </div>
+
+    <p style="font-size:13px;font-weight:500;color:var(--tf-slate);margin-bottom:1rem;">A. Hotel Manager / Contract Contact</p>
+    <div class="field-grid">
+      <div class="field">
+        <label>Name<span class="req">*</span></label>
+        <input type="text" name="manager_name" required placeholder="Full name">
+      </div>
+      <div class="field">
+        <label>Designation / Title<span class="opt">(optional)</span></label>
+        <input type="text" name="manager_title" placeholder="e.g. General Manager">
+      </div>
+      <div class="field">
+        <label>Email Address<span class="req">*</span></label>
+        <input type="email" name="manager_email" required placeholder="manager@hotel.com">
+      </div>
+      <div class="field">
+        <label>Phone / WhatsApp<span class="req">*</span></label>
+        <input type="tel" name="manager_phone" required placeholder="+1 234 567 8900">
+      </div>
+    </div>
+
+    <hr class="field-divider">
+
+    <p style="font-size:13px;font-weight:500;color:var(--tf-slate);margin-bottom:1rem;">B. Reservations / Bookings Contact</p>
+    <div class="field-grid">
+      <div class="field">
+        <label>Reservations Email<span class="req">*</span> <span style="font-size:11px;color:var(--tf-muted);font-weight:400">(booking confirmations sent here)</span></label>
+        <input type="email" name="reservations_email" required placeholder="reservations@hotel.com">
+      </div>
+      <div class="field">
+        <label>Reservations Phone<span class="opt">(optional)</span></label>
+        <input type="tel" name="reservations_phone" placeholder="+1 234 567 8901">
+      </div>
+      <div class="field">
+        <label>Reservations Contact Name<span class="opt">(optional)</span></label>
+        <input type="text" name="reservations_contact" placeholder="Name of reservations manager">
+      </div>
+      <div class="field">
+        <label>Accounts / Finance Email<span class="opt">(optional)</span></label>
+        <input type="email" name="accounts_email" placeholder="accounts@hotel.com">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ BANK DETAILS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Bank Details for Payment</h2>
+  </div>
+  <div class="section-body">
+    <div class="notice">
+      <strong>Security Notice</strong>
+      Bank details are used for TripFactory payment processing only and handled in strict confidence.
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Beneficiary / Account Name<span class="req">*</span></label>
+        <input type="text" name="bank_account_name" required placeholder="As it appears on bank records">
+      </div>
+      <div class="field">
+        <label>Bank Name<span class="req">*</span></label>
+        <input type="text" name="bank_name" required placeholder="Full bank name">
+      </div>
+      <div class="field">
+        <label>Account Number / IBAN<span class="req">*</span></label>
+        <input type="text" name="bank_account_number" required placeholder="Account number or IBAN">
+      </div>
+      <div class="field">
+        <label>SWIFT / BIC Code<span class="req">*</span></label>
+        <input type="text" name="bank_swift" required placeholder="e.g. HBUKGB4B">
+      </div>
+      <div class="field">
+        <label>Branch / Routing Number<span class="opt">(if applicable)</span></label>
+        <input type="text" name="bank_branch" placeholder="Sort code, routing, or IFSC">
+      </div>
+      <div class="field">
+        <label>Bank Country<span class="req">*</span></label>
+        <input type="text" name="bank_country" required placeholder="Country where account is held">
+      </div>
+      <div class="field field-full">
+        <label>Additional Banking Instructions<span class="opt">(optional)</span></label>
+        <textarea name="bank_notes" placeholder="Intermediary bank details, reference requirements, etc."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ RATES TABLE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Room Rates — Mandatory Upload Fields</h2>
+  </div>
+  <div class="section-body">
+    <p style="font-size:13px;color:var(--tf-muted);margin-bottom:1rem;">
+      Enter each room category / meal plan combination as a separate row. All starred fields are mandatory for system upload. Add as many rows as needed.
+    </p>
+    <div class="rates-table-wrap">
+    <table class="rates-table" id="ratesTable">
+      <thead>
+        <tr>
+          <th>Room Category<span class="req">*</span></th>
+          <th>Meal Plan<span class="req">*</span></th>
+          <th>Base Occ.<span class="req">*</span></th>
+          <th>Max Occ.<span class="req">*</span></th>
+          <th>Room Rate<span class="req">*</span></th>
+          <th>Extra Bed</th>
+          <th>Extra Child<br>(with bed)</th>
+          <th>Extra Child<br>(no bed)</th>
+          <th>Valid From<span class="req">*</span></th>
+          <th>Valid To<span class="req">*</span></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="ratesBody">
+        <!-- rows added by JS -->
+      </tbody>
+    </table>
+    </div>
+    <button type="button" class="add-row-btn" onclick="addRateRow()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Add room category row
+    </button>
+  </div>
+</div>
+
+<!-- ⑥ OCCUPANCY NOTES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Occupancy &amp; Room Configuration Notes</h2>
+  </div>
+  <div class="section-body">
+    <div class="field-grid">
+      <div class="field">
+        <label>Standard Bedding Configuration<span class="req">*</span></label>
+        <select name="bedding_config" required>
+          <option value="">Select…</option>
+          <option>Single</option>
+          <option>Twin</option>
+          <option>Double</option>
+          <option>King</option>
+          <option>Queen</option>
+          <option>Triple</option>
+          <option>Mixed (varies by room type)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Additional Bedding Available?<span class="req">*</span></label>
+        <div class="radio-group" style="margin-top:8px;">
+          <label><input type="radio" name="extra_bedding_avail" value="Yes" required> Yes</label>
+          <label><input type="radio" name="extra_bedding_avail" value="No"> No</label>
+          <label><input type="radio" name="extra_bedding_avail" value="Request Only"> On Request</label>
+        </div>
+      </div>
+      <div class="field field-full">
+        <label>Occupancy Notes<span class="opt">(optional)</span></label>
+        <textarea name="occupancy_notes" placeholder="Any additional notes about occupancy rules, rollaway charges, or cot/crib policy…"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑦ CANCELLATION POLICY -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Cancellation Policy<span style="color:var(--tf-danger);margin-left:4px;font-size:13px;">*</span></h2>
+  </div>
+  <div class="section-body">
+    <div id="policyBlocks"></div>
+    <button type="button" class="add-row-btn" onclick="addPolicyBlock()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Add cancellation tier
+    </button>
+    <div style="margin-top:1.25rem;" class="field">
+      <label>No-Show Policy<span class="req">*</span></label>
+      <textarea name="no_show_policy" required placeholder="e.g. First night + taxes charged in case of no-show…" style="min-height:60px;"></textarea>
+    </div>
+    <div style="margin-top:1rem;" class="field">
+      <label>Non-Refundable / Special Conditions<span class="opt">(optional)</span></label>
+      <textarea name="non_refundable_conditions" placeholder="e.g. Festive period bookings are fully non-refundable…"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ⑧ MEAL PLANS OFFERED -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Meal Plans Offered</h2>
+  </div>
+  <div class="section-body">
+    <label style="margin-bottom:8px;display:block;">Select all meal plans available at this property<span class="req">*</span></label>
+    <div class="check-group">
+      <label><input type="checkbox" name="meal_plan" value="RO"> Room Only (RO)</label>
+      <label><input type="checkbox" name="meal_plan" value="BB"> Bed &amp; Breakfast (BB)</label>
+      <label><input type="checkbox" name="meal_plan" value="HB"> Half Board (HB)</label>
+      <label><input type="checkbox" name="meal_plan" value="FB"> Full Board (FB)</label>
+      <label><input type="checkbox" name="meal_plan" value="AI"> All Inclusive (AI)</label>
+      <label><input type="checkbox" name="meal_plan" value="MAP"> Modified American Plan (MAP)</label>
+      <label><input type="checkbox" name="meal_plan" value="CP"> Continental Plan (CP)</label>
+    </div>
+    <div style="margin-top:1rem;" class="field">
+      <label>Meal Plan Notes<span class="opt">(optional)</span></label>
+      <textarea name="meal_plan_notes" style="min-height:55px;" placeholder="Any specific inclusions, dietary options, or restrictions to note…"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ⑨ ADDITIONAL SERVICES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Additional Services &amp; Facilities</h2>
+  </div>
+  <div class="section-body">
+    <div class="field-grid">
+      <div class="field">
+        <label>Airport Transfers Available?</label>
+        <div class="radio-group" style="margin-top:8px;">
+          <label><input type="radio" name="transfers" value="Yes"> Yes</label>
+          <label><input type="radio" name="transfers" value="No"> No</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>If Yes — Transfer Rate (one way)</label>
+        <input type="text" name="transfer_rate" placeholder="e.g. USD 30 per vehicle">
+      </div>
+      <div class="field">
+        <label>Early Check-in Available?</label>
+        <div class="radio-group" style="margin-top:8px;">
+          <label><input type="radio" name="early_checkin" value="Yes"> Yes</label>
+          <label><input type="radio" name="early_checkin" value="No"> No</label>
+          <label><input type="radio" name="early_checkin" value="On Request"> On Request</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Late Check-out Available?</label>
+        <div class="radio-group" style="margin-top:8px;">
+          <label><input type="radio" name="late_checkout" value="Yes"> Yes</label>
+          <label><input type="radio" name="late_checkout" value="No"> No</label>
+          <label><input type="radio" name="late_checkout" value="On Request"> On Request</label>
+        </div>
+      </div>
+      <div class="field field-full">
+        <label>Key Facilities / Amenities<span class="opt">(optional)</span></label>
+        <div class="check-group" style="margin-top:6px;">
+          <label><input type="checkbox" name="facility" value="Pool"> Pool</label>
+          <label><input type="checkbox" name="facility" value="Spa"> Spa</label>
+          <label><input type="checkbox" name="facility" value="Gym"> Gym</label>
+          <label><input type="checkbox" name="facility" value="Restaurant"> Restaurant</label>
+          <label><input type="checkbox" name="facility" value="Bar"> Bar</label>
+          <label><input type="checkbox" name="facility" value="Beach Access"> Beach Access</label>
+          <label><input type="checkbox" name="facility" value="Parking"> Parking</label>
+          <label><input type="checkbox" name="facility" value="WiFi"> Free WiFi</label>
+          <label><input type="checkbox" name="facility" value="Kids Club"> Kids Club</label>
+          <label><input type="checkbox" name="facility" value="Conference"> Conference Facilities</label>
+        </div>
+      </div>
+      <div class="field field-full">
+        <label>Special Offers / Promotions<span class="opt">(optional)</span></label>
+        <textarea name="special_offers" placeholder="e.g. Stay 7 nights pay 6, Early bird 20% off, Honeymoon package…"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑩ RATE FILE ATTACHMENT -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Rate File Attachment</h2>
+  </div>
+  <div class="section-body">
+    <p style="font-size:13px;color:var(--tf-muted);margin-bottom:1.25rem;">
+      Attach the completed TripFactory Rate Template (Excel / CSV) and any supporting documents. The rate template contains the full date-wise pricing grid.
+    </p>
+    <div class="file-zone" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" multiple accept=".xlsx,.xls,.csv,.pdf,.doc,.docx" onchange="handleFiles(this.files)">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:10px;opacity:0.45;">
+        <path d="M16 4v16M10 10l6-6 6 6" stroke="var(--tf-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="var(--tf-blue)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="file-zone-label">
+        <strong>Click to upload</strong> or drag &amp; drop<br>
+        <span>Excel, CSV, PDF, Word — max 25MB per file</span>
+      </div>
+    </div>
+    <div class="file-list" id="fileList"></div>
+    <p class="hint" style="margin-top:0.75rem;">Required: TripFactory Hotel Rate Template (Excel). Optional: Hotel brochure, floor plan, or signed contract scan.</p>
+  </div>
+</div>
+
+<!-- ⑪ ADDITIONAL NOTES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <h2>Additional Notes &amp; Special Instructions</h2>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <label>Any other information the contracts team should know<span class="opt">(optional)</span></label>
+      <textarea name="additional_notes" style="min-height:100px;" placeholder="Special market conditions, blackout dates, confidentiality requirements, urgency, etc."></textarea>
+    </div>
+    <div style="margin-top:1rem;" class="field">
+      <label>Urgency Level</label>
+      <div class="radio-group" style="margin-top:8px;">
+        <label><input type="radio" name="urgency" value="Standard" checked> Standard (5–7 working days)</label>
+        <label><input type="radio" name="urgency" value="Urgent"> Urgent (2–3 working days)</label>
+        <label><input type="radio" name="urgency" value="Critical"> Critical — same day</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑫ DECLARATION -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <h2>Declaration</h2>
+  </div>
+  <div class="section-body">
+    <div style="background:var(--tf-sand);border-radius:8px;padding:1rem 1.25rem;font-size:13px;color:var(--tf-slate);margin-bottom:1.25rem;line-height:1.7;">
+      I confirm that the information provided in this form is accurate and complete to the best of my knowledge. I understand that the contracted rates and hotel details will be uploaded into the TripFactory booking system for use by all relevant teams. I have obtained the necessary authorisations from the hotel / property for these rates to be loaded.
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Full Name (declarant)<span class="req">*</span></label>
+        <input type="text" name="declarant_name" required placeholder="Your full name">
+      </div>
+      <div class="field">
+        <label>Date<span class="req">*</span></label>
+        <input type="date" name="declarant_date" required id="declarantDate">
+      </div>
+      <div class="field field-full">
+        <label><input type="checkbox" id="declarationCheck" required style="width:15px;height:15px;vertical-align:middle;margin-right:8px;"> I agree to the above declaration and confirm all mandatory fields have been completed.</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-area">
+  <p>Once complete: save as PDF (for your records &amp; to attach to your email), then submit the PDF + rate file to <strong style="color:#F7C000;">contracts@tripfactory.com</strong> with cc to <strong>soldout@tripfactory.com</strong> (for stop sales setup).</p>
+  <div class="btn-row">
+    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Clear form
+    </button>
+    <button type="button" class="btn btn-pdf" onclick="savePDF()">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 2h8l3 3v10H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M10 2v3h3M5 8h5M5 11h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      Save as PDF
+    </button>
+    <button type="button" class="btn btn-primary" onclick="submitForm()">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13 2L6 9M13 2H8M13 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3H2v10h10V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Validate &amp; Submit
+    </button>
+  </div>
+</div>
+
+</form>
+</div><!-- /main -->
+
+<div id="toast"></div>
+
+<script>
+// ── SET TODAY'S DATE ──
+(function() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('submissionDate').value = today;
+  document.getElementById('declarantDate').value = today;
+})();
+
+// ── RATE ROW TEMPLATE ──
+let rateRowCount = 0;
+const mealPlans = ['RO','BB','HB','FB','AI','MAP','CP'];
+
+function addRateRow() {
+  rateRowCount++;
+  const tbody = document.getElementById('ratesBody');
+  const tr = document.createElement('tr');
+  tr.id = 'rateRow_' + rateRowCount;
+  const n = rateRowCount;
+  tr.innerHTML = `
+    <td><input type="text" name="room_cat_${n}" placeholder="e.g. Deluxe Room" required></td>
+    <td><select name="meal_${n}" required>
+      <option value="">—</option>
+      ${mealPlans.map(m=>`<option value="${m}">${m}</option>`).join('')}
+    </select></td>
+    <td><input type="number" name="base_occ_${n}" min="1" max="10" placeholder="e.g. 2" required style="width:70px;"></td>
+    <td><input type="number" name="max_occ_${n}" min="1" max="10" placeholder="e.g. 3" required style="width:70px;"></td>
+    <td><input type="number" name="room_rate_${n}" min="0" step="0.01" placeholder="0.00" required></td>
+    <td><input type="number" name="extra_bed_${n}" min="0" step="0.01" placeholder="0.00"></td>
+    <td><input type="number" name="child_bed_${n}" min="0" step="0.01" placeholder="0.00"></td>
+    <td><input type="number" name="child_nobed_${n}" min="0" step="0.01" placeholder="0.00"></td>
+    <td><input type="date" name="valid_from_${n}" required></td>
+    <td><input type="date" name="valid_to_${n}" required></td>
+    <td><button type="button" class="del-row" onclick="removeRow('rateRow_${n}')" title="Remove row">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+  updateProgress();
+}
+
+function removeRow(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+  updateProgress();
+}
+
+// Start with 3 rows
+addRateRow(); addRateRow(); addRateRow();
+
+// ── CANCELLATION POLICY BLOCKS ──
+let policyCount = 0;
+function addPolicyBlock() {
+  policyCount++;
+  const n = policyCount;
+  const container = document.getElementById('policyBlocks');
+  const div = document.createElement('div');
+  div.className = 'policy-block';
+  div.id = 'policy_' + n;
+  div.innerHTML = `
+    <button type="button" class="del-policy" onclick="removePolicy('policy_${n}')" title="Remove">✕</button>
+    <div style="font-size:12.5px;font-weight:500;color:var(--tf-slate);margin-bottom:1rem;">Cancellation Tier ${n}</div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Days Before Check-in<span class="req">*</span></label>
+        <input type="text" name="cancel_days_${n}" placeholder="e.g. 0–2 days, 3–7 days, 8+ days" required>
+      </div>
+      <div class="field">
+        <label>Penalty<span class="req">*</span></label>
+        <input type="text" name="cancel_penalty_${n}" placeholder="e.g. 100% of first night, full stay charge" required>
+      </div>
+      <div class="field field-full">
+        <label>Additional Notes<span class="opt">(optional)</span></label>
+        <input type="text" name="cancel_notes_${n}" placeholder="Any exceptions or conditions…">
+      </div>
+    </div>
+  `;
+  container.appendChild(div);
+  updateProgress();
+}
+
+function removePolicy(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+  updateProgress();
+}
+
+// Start with 1 policy block
+addPolicyBlock();
+
+// ── FILE HANDLING ──
+const uploadedFiles = [];
+function handleFiles(files) {
+  for (const f of files) {
+    uploadedFiles.push(f);
+  }
+  renderFileList();
+}
+function renderFileList() {
+  const list = document.getElementById('fileList');
+  list.innerHTML = uploadedFiles.map((f, i) => `
+    <div>
+      <span>📎 ${f.name} <span style="color:var(--tf-muted);font-size:11px;">(${(f.size/1024).toFixed(0)} KB)</span></span>
+      <button type="button" class="remove-file" onclick="removeFile(${i})">✕ Remove</button>
+    </div>
+  `).join('');
+}
+function removeFile(index) {
+  uploadedFiles.splice(index, 1);
+  renderFileList();
+}
+
+// ── PROGRESS ──
+function updateProgress() {
+  const form = document.getElementById('intakeForm');
+  const required = form.querySelectorAll('[required]');
+  let filled = 0;
+  required.forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') {
+      if (el.type === 'checkbox' && el.checked) filled++;
+      else if (el.type === 'radio') {
+        const group = form.querySelectorAll(`[name="${el.name}"]`);
+        if ([...group].some(r => r.checked)) filled++;
+      }
+    } else if (el.value.trim()) filled++;
+  });
+  // Deduplicate radio groups
+  const radioNames = new Set();
+  let radioTotal = 0;
+  required.forEach(el => {
+    if (el.type === 'radio' && !radioNames.has(el.name)) {
+      radioNames.add(el.name);
+      radioTotal++;
+    }
+  });
+  const nonRadioRequired = [...required].filter(el => el.type !== 'radio').length;
+  const total = nonRadioRequired + radioTotal;
+  const pct = total ? Math.round((filled / total) * 100) : 0;
+  document.getElementById('progressFill').style.width = Math.min(pct, 100) + '%';
+  document.getElementById('progressPct').textContent = Math.min(pct, 100) + '%';
+}
+
+document.getElementById('intakeForm').addEventListener('input', updateProgress);
+document.getElementById('intakeForm').addEventListener('change', updateProgress);
+
+// ── TOAST ──
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  setTimeout(() => { t.className = ''; }, 4500);
+}
+
+// ── VALIDATE ──
+function validateForm() {
+  const form = document.getElementById('intakeForm');
+  const required = form.querySelectorAll('[required]');
+  const missing = [];
+  const checkedRadios = new Set();
+
+  required.forEach(el => {
+    if (el.type === 'radio') {
+      if (!checkedRadios.has(el.name)) {
+        const group = form.querySelectorAll(`[name="${el.name}"]`);
+        if (![...group].some(r => r.checked)) {
+          checkedRadios.add(el.name);
+          missing.push(el.closest('.field')?.querySelector('label')?.textContent?.replace('*','').trim() || el.name);
+        }
+      }
+    } else if (el.type === 'checkbox') {
+      if (!el.checked) missing.push('Declaration checkbox');
+    } else if (!el.value.trim()) {
+      missing.push(el.closest('.field')?.querySelector('label')?.textContent?.replace('*','').trim() || el.placeholder || el.name);
+    }
+  });
+
+  // Check at least 1 rate row
+  if (document.getElementById('ratesBody').children.length === 0) {
+    missing.push('At least one rate row');
+  }
+
+  // Check at least 1 meal plan checkbox
+  const mealChecked = form.querySelectorAll('[name="meal_plan"]:checked');
+  if (mealChecked.length === 0) missing.push('Meal plans offered');
+
+  return missing;
+}
+
+// ── SUBMIT ──
+function submitForm() {
+  const missing = validateForm();
+  if (missing.length > 0) {
+    showToast('Please complete all mandatory fields. Missing: ' + missing.slice(0, 3).join(', ') + (missing.length > 3 ? ` + ${missing.length - 3} more` : '') + '.', 'error');
+    return;
+  }
+  const email = 'contracts@tripfactory.com';
+  const subject = encodeURIComponent('New Contract Intake: ' + (document.querySelector('[name="hotel_name"]').value || 'New Property'));
+  const body = encodeURIComponent('Please find the completed TripFactory New Contract Intake Form attached.\n\nProperty: ' + document.querySelector('[name="hotel_name"]').value + '\nCity: ' + document.querySelector('[name="city"]').value + '\nCountry: ' + document.querySelector('[name="country"]').value + '\n\nPlease see the attached PDF form and rate file.');
+  window.open(`mailto:${email}?cc=soldout%40tripfactory.com&subject=${subject}&body=${body}`);
+  showToast('Email client opened! Please attach your saved PDF and rate file before sending.', 'success');
+}
+
+// ── SAVE PDF ──
+function savePDF() {
+  showToast('Opening print dialog — select "Save as PDF" as the destination.', '');
+  setTimeout(() => window.print(), 600);
+}
+
+// ── CLEAR ──
+function clearForm() {
+  if (!confirm('Clear all form data? This cannot be undone.')) return;
+  document.getElementById('intakeForm').reset();
+  document.getElementById('ratesBody').innerHTML = '';
+  document.getElementById('policyBlocks').innerHTML = '';
+  document.getElementById('fileList').innerHTML = '';
+  uploadedFiles.length = 0;
+  rateRowCount = 0;
+  policyCount = 0;
+  addRateRow(); addRateRow(); addRateRow();
+  addPolicyBlock();
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('submissionDate').value = today;
+  document.getElementById('declarantDate').value = today;
+  updateProgress();
+  showToast('Form cleared.', '');
+}
+</script>
+</body>
+</html>
