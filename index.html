@@ -466,6 +466,18 @@
 
 <!-- MAIN FORM -->
 <div class="main">
+
+<!-- ROLE GUIDANCE -->
+<div style="background:#EEF7FF;border:1px solid #BDD9F2;border-radius:10px;padding:1.1rem 1.5rem;margin-bottom:2rem;display:flex;gap:1rem;align-items:flex-start;">
+  <span style="font-size:20px;flex-shrink:0;">💡</span>
+  <div style="font-size:13px;color:#1C3766;line-height:1.7;">
+    <strong style="display:block;margin-bottom:4px;">Who fills what?</strong>
+    <strong>Contracting team</strong> — complete Sections 1–4 (submission info, hotel details, contacts, bank details) and hand off.<br>
+    <strong>Rates / product team</strong> — complete Sections 5–11 (rates, occupancy, cancellation, services) and attach the rate file before submitting.<br>
+    <span style="color:#1A7DC4;">Select the Contract Type first — bank details will show/hide automatically based on your selection.</span>
+  </div>
+</div>
+
 <form id="intakeForm" novalidate>
 
 <!-- ① SUBMISSION INFO -->
@@ -506,10 +518,11 @@
       </div>
       <div class="field">
         <label>Contract Type<span class="req">*</span></label>
-        <select name="contract_type" required>
+        <select name="contract_type" required onchange="toggleBankSection(this.value)">
           <option value="">Select…</option>
           <option>New Contract</option>
           <option>Rate Update / Amendment</option>
+          <option>Promotional Update</option>
           <option>Renewal</option>
           <option>New Property within Existing Chain</option>
         </select>
@@ -639,15 +652,15 @@
 </div>
 
 <!-- ④ BANK DETAILS -->
-<div class="section">
+<div class="section" id="bankSection">
   <div class="section-header">
     <div class="section-num">4</div>
     <h2>Bank Details for Payment</h2>
   </div>
   <div class="section-body">
     <div class="notice">
-      <strong>Security Notice</strong>
-      Bank details are used for TripFactory payment processing only and handled in strict confidence.
+      <strong>Required for New Contracts &amp; Renewals only</strong>
+      This section is hidden for Rate Updates and Promotional Updates. Bank details are used for TripFactory payment processing only and handled in strict confidence.
     </div>
     <div class="field-grid">
       <div class="field">
@@ -690,22 +703,22 @@
   </div>
   <div class="section-body">
     <p style="font-size:13px;color:var(--tf-muted);margin-bottom:1rem;">
-      Enter each room category / meal plan combination as a separate row. All starred fields are mandatory for system upload. Add as many rows as needed.
+      Enter each room category / meal plan combination as a separate row. <strong>At least one complete row is required.</strong> Blank rows will be ignored. Add as many rows as needed.
     </p>
     <div class="rates-table-wrap">
     <table class="rates-table" id="ratesTable">
       <thead>
         <tr>
-          <th>Room Category<span class="req">*</span></th>
-          <th>Meal Plan<span class="req">*</span></th>
-          <th>Base Occ.<span class="req">*</span></th>
-          <th>Max Occ.<span class="req">*</span></th>
-          <th>Room Rate<span class="req">*</span></th>
+          <th>Room Category</th>
+          <th>Meal Plan</th>
+          <th>Base Occ.</th>
+          <th>Max Occ.</th>
+          <th>Room Rate</th>
           <th>Extra Bed</th>
           <th>Extra Child<br>(with bed)</th>
           <th>Extra Child<br>(no bed)</th>
-          <th>Valid From<span class="req">*</span></th>
-          <th>Valid To<span class="req">*</span></th>
+          <th>Valid From</th>
+          <th>Valid To</th>
           <th></th>
         </tr>
       </thead>
@@ -980,19 +993,19 @@ function addRateRow() {
   tr.id = 'rateRow_' + rateRowCount;
   const n = rateRowCount;
   tr.innerHTML = `
-    <td><input type="text" name="room_cat_${n}" placeholder="e.g. Deluxe Room" required></td>
-    <td><select name="meal_${n}" required>
+    <td><input type="text" name="room_cat_${n}" placeholder="e.g. Deluxe Room"></td>
+    <td><select name="meal_${n}">
       <option value="">—</option>
       ${mealPlans.map(m=>`<option value="${m}">${m}</option>`).join('')}
     </select></td>
-    <td><input type="number" name="base_occ_${n}" min="1" max="10" placeholder="e.g. 2" required style="width:70px;"></td>
-    <td><input type="number" name="max_occ_${n}" min="1" max="10" placeholder="e.g. 3" required style="width:70px;"></td>
-    <td><input type="number" name="room_rate_${n}" min="0" step="0.01" placeholder="0.00" required></td>
+    <td><input type="number" name="base_occ_${n}" min="1" max="10" placeholder="2" style="width:70px;"></td>
+    <td><input type="number" name="max_occ_${n}" min="1" max="10" placeholder="3" style="width:70px;"></td>
+    <td><input type="number" name="room_rate_${n}" min="0" step="0.01" placeholder="0.00"></td>
     <td><input type="number" name="extra_bed_${n}" min="0" step="0.01" placeholder="0.00"></td>
     <td><input type="number" name="child_bed_${n}" min="0" step="0.01" placeholder="0.00"></td>
     <td><input type="number" name="child_nobed_${n}" min="0" step="0.01" placeholder="0.00"></td>
-    <td><input type="date" name="valid_from_${n}" required></td>
-    <td><input type="date" name="valid_to_${n}" required></td>
+    <td><input type="date" name="valid_from_${n}"></td>
+    <td><input type="date" name="valid_to_${n}"></td>
     <td><button type="button" class="del-row" onclick="removeRow('rateRow_${n}')" title="Remove row">✕</button></td>
   `;
   tbody.appendChild(tr);
@@ -1070,31 +1083,53 @@ function removeFile(index) {
   renderFileList();
 }
 
+// ── BANK SECTION TOGGLE ──
+function toggleBankSection(contractType) {
+  const bankSection = document.getElementById('bankSection');
+  const bankInputs = bankSection.querySelectorAll('input, textarea, select');
+  const noBank = ['Rate Update / Amendment', 'Promotional Update'];
+  const hide = noBank.includes(contractType);
+
+  bankSection.style.display = hide ? 'none' : '';
+  bankInputs.forEach(el => {
+    if (hide) {
+      el.removeAttribute('required');
+      el.dataset.wasRequired = el.dataset.wasRequired || (el.hasAttribute('required') ? 'yes' : 'no');
+    } else {
+      // restore required on key fields
+      if (['bank_account_name','bank_name','bank_account_number','bank_swift','bank_country'].includes(el.name)) {
+        el.setAttribute('required', '');
+      }
+    }
+  });
+}
+
 // ── PROGRESS ──
 function updateProgress() {
   const form = document.getElementById('intakeForm');
-  const required = form.querySelectorAll('[required]');
-  let filled = 0;
-  required.forEach(el => {
-    if (el.type === 'checkbox' || el.type === 'radio') {
-      if (el.type === 'checkbox' && el.checked) filled++;
-      else if (el.type === 'radio') {
-        const group = form.querySelectorAll(`[name="${el.name}"]`);
-        if ([...group].some(r => r.checked)) filled++;
-      }
-    } else if (el.value.trim()) filled++;
+  const allRequired = [...form.querySelectorAll('[required]')].filter(el => {
+    // skip hidden sections
+    return el.offsetParent !== null;
   });
-  // Deduplicate radio groups
   const radioNames = new Set();
-  let radioTotal = 0;
-  required.forEach(el => {
-    if (el.type === 'radio' && !radioNames.has(el.name)) {
-      radioNames.add(el.name);
-      radioTotal++;
+  let total = 0, filled = 0;
+
+  allRequired.forEach(el => {
+    if (el.type === 'radio') {
+      if (!radioNames.has(el.name)) {
+        radioNames.add(el.name);
+        total++;
+        if ([...form.querySelectorAll(`[name="${el.name}"]`)].some(r => r.checked)) filled++;
+      }
+    } else if (el.type === 'checkbox') {
+      total++;
+      if (el.checked) filled++;
+    } else {
+      total++;
+      if (el.value.trim()) filled++;
     }
   });
-  const nonRadioRequired = [...required].filter(el => el.type !== 'radio').length;
-  const total = nonRadioRequired + radioTotal;
+
   const pct = total ? Math.round((filled / total) * 100) : 0;
   document.getElementById('progressFill').style.width = Math.min(pct, 100) + '%';
   document.getElementById('progressPct').textContent = Math.min(pct, 100) + '%';
@@ -1108,40 +1143,46 @@ function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'show ' + type;
-  setTimeout(() => { t.className = ''; }, 4500);
+  setTimeout(() => { t.className = ''; }, 5000);
 }
 
 // ── VALIDATE ──
 function validateForm() {
   const form = document.getElementById('intakeForm');
-  const required = form.querySelectorAll('[required]');
   const missing = [];
-  const checkedRadios = new Set();
+  const seenRadios = new Set();
 
-  required.forEach(el => {
+  // Only validate visible required fields
+  form.querySelectorAll('[required]').forEach(el => {
+    if (el.offsetParent === null) return; // skip hidden
+
     if (el.type === 'radio') {
-      if (!checkedRadios.has(el.name)) {
-        const group = form.querySelectorAll(`[name="${el.name}"]`);
-        if (![...group].some(r => r.checked)) {
-          checkedRadios.add(el.name);
-          missing.push(el.closest('.field')?.querySelector('label')?.textContent?.replace('*','').trim() || el.name);
-        }
+      if (seenRadios.has(el.name)) return;
+      seenRadios.add(el.name);
+      if (![...form.querySelectorAll(`[name="${el.name}"]`)].some(r => r.checked)) {
+        const lbl = el.closest('div')?.previousElementSibling?.textContent?.replace('*','').trim();
+        missing.push(lbl || el.name);
       }
     } else if (el.type === 'checkbox') {
-      if (!el.checked) missing.push('Declaration checkbox');
+      if (!el.checked) missing.push('Declaration confirmation');
     } else if (!el.value.trim()) {
-      missing.push(el.closest('.field')?.querySelector('label')?.textContent?.replace('*','').trim() || el.placeholder || el.name);
+      const lbl = el.closest('.field')?.querySelector('label')?.textContent?.replace('*','').replace(/\(.*\)/,'').trim();
+      missing.push(lbl || el.placeholder || el.name);
     }
   });
 
-  // Check at least 1 rate row
-  if (document.getElementById('ratesBody').children.length === 0) {
-    missing.push('At least one rate row');
-  }
+  // Check at least 1 rate row has a room name
+  const rows = document.getElementById('ratesBody').querySelectorAll('tr');
+  const hasValidRow = [...rows].some(row => {
+    const cat = row.querySelector('input[type="text"]');
+    return cat && cat.value.trim();
+  });
+  if (!hasValidRow) missing.push('At least one rate row with a room category');
 
-  // Check at least 1 meal plan checkbox
-  const mealChecked = form.querySelectorAll('[name="meal_plan"]:checked');
-  if (mealChecked.length === 0) missing.push('Meal plans offered');
+  // Check at least 1 meal plan
+  if (form.querySelectorAll('[name="meal_plan"]:checked').length === 0) {
+    missing.push('Meal plans offered (Section 8)');
+  }
 
   return missing;
 }
@@ -1150,14 +1191,24 @@ function validateForm() {
 function submitForm() {
   const missing = validateForm();
   if (missing.length > 0) {
-    showToast('Please complete all mandatory fields. Missing: ' + missing.slice(0, 3).join(', ') + (missing.length > 3 ? ` + ${missing.length - 3} more` : '') + '.', 'error');
+    showToast('⚠ Please complete: ' + missing.slice(0, 3).join(', ') + (missing.length > 3 ? ` + ${missing.length - 3} more` : '') + '.', 'error');
+    // scroll to first missing field
+    const firstRequired = document.querySelector('[required]');
+    if (firstRequired) firstRequired.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-  const email = 'contracts@tripfactory.com';
-  const subject = encodeURIComponent('New Contract Intake: ' + (document.querySelector('[name="hotel_name"]').value || 'New Property'));
-  const body = encodeURIComponent('Please find the completed TripFactory New Contract Intake Form attached.\n\nProperty: ' + document.querySelector('[name="hotel_name"]').value + '\nCity: ' + document.querySelector('[name="city"]').value + '\nCountry: ' + document.querySelector('[name="country"]').value + '\n\nPlease see the attached PDF form and rate file.');
-  window.open(`mailto:${email}?cc=soldout%40tripfactory.com&subject=${subject}&body=${body}`);
-  showToast('Email client opened! Please attach your saved PDF and rate file before sending.', 'success');
+  const hotelName = document.querySelector('[name="hotel_name"]')?.value || 'New Property';
+  const city = document.querySelector('[name="city"]')?.value || '';
+  const country = document.querySelector('[name="country"]')?.value || '';
+  const contractType = document.querySelector('[name="contract_type"]')?.value || '';
+  const subject = encodeURIComponent(`[TripFactory] ${contractType}: ${hotelName}, ${city}`);
+  const body = encodeURIComponent(
+    `Dear Contracts Team,\n\nPlease find the completed New Contract Intake Form attached as PDF.\n\n` +
+    `Property: ${hotelName}\nCity: ${city}\nCountry: ${country}\nContract Type: ${contractType}\n\n` +
+    `Please also find the rate file attached.\n\nRegards`
+  );
+  window.open(`mailto:contracts@tripfactory.com?cc=soldout%40tripfactory.com&subject=${subject}&body=${body}`);
+  showToast('✓ Email client opened! Attach your saved PDF + rate file before sending.', 'success');
 }
 
 // ── SAVE PDF ──
