@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TripFactory — New Contract Intake Form</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -41,16 +41,17 @@
 
   /* ── HEADER ── */
   .header {
-    background: var(--tf-navy);
-    color: white;
+    background: #ffffff;
+    color: var(--tf-navy);
     padding: 0;
     position: relative;
     overflow: hidden;
+    border-bottom: 1px solid var(--tf-border);
   }
   .header-inner {
     max-width: 960px;
     margin: 0 auto;
-    padding: 2.5rem 3rem 2rem;
+    padding: 1.75rem 3rem 1.5rem;
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -62,39 +63,39 @@
     flex-shrink: 0;
   }
   .logo-icon {
-    width: 56px;
-    height: 56px;
+    height: 80px;
+    width: auto;
   }
   .logo-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--tf-blue-mid);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--tf-navy);
     line-height: 1.1;
   }
   .logo-sub {
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.12em;
+    font-size: 10.5px;
+    color: var(--tf-muted);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 4px;
   }
   .header-divider {
     width: 1px;
-    height: 48px;
-    background: rgba(255,255,255,0.3);
+    height: 60px;
+    background: var(--tf-border);
   }
   .header-title h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 400;
-    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--tf-navy);
     line-height: 1.2;
   }
   .header-title p {
     font-size: 13px;
-    color: rgba(255,255,255,0.55);
-    margin-top: 6px;
+    color: var(--tf-muted);
+    margin-top: 5px;
   }
   .header-accent { display: none; }
   .colour-bar {
@@ -109,15 +110,15 @@
   .cb-blue { background: #1A7DC4; }
 
   .mandatory-note {
-    background: rgba(28,55,102,0.08);
-    border-left: 3px solid #F7C000;
+    background: var(--tf-sand);
+    border-left: 3px solid var(--tf-yellow);
     padding: 0.75rem 3rem;
     font-size: 12.5px;
-    color: rgba(255,255,255,0.7);
+    color: var(--tf-slate, #4A5568);
     max-width: 960px;
     margin: 0 auto;
   }
-  .mandatory-note strong { color: #F7C000; }
+  .mandatory-note strong { color: var(--tf-navy); }
 
   /* ── MAIN ── */
   .main {
@@ -156,9 +157,9 @@
     flex-shrink: 0;
   }
   .section-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14.5px;
+    font-weight: 700;
     color: var(--tf-navy);
   }
   .section-body {
@@ -418,7 +419,8 @@
 
   /* ── PROGRESS BAR ── */
   .progress-bar-wrap {
-    background: var(--tf-navy-mid);
+    background: var(--tf-sand);
+    border-top: 1px solid var(--tf-border);
     padding: 0.6rem 3rem;
     max-width: 960px;
     margin: 0 auto;
@@ -426,10 +428,10 @@
     align-items: center;
     gap: 1rem;
   }
-  .progress-label { font-size: 11.5px; color: rgba(255,255,255,0.55); white-space: nowrap; }
-  .progress-track { flex: 1; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; }
-  .progress-fill { height: 4px; background: var(--tf-blue-mid); border-radius: 2px; transition: width 0.4s; }
-  .progress-pct { font-size: 11.5px; color: var(--tf-blue-mid); font-weight: 500; min-width: 36px; text-align: right; }
+  .progress-label { font-size: 11.5px; color: var(--tf-muted); white-space: nowrap; }
+  .progress-track { flex: 1; height: 5px; background: var(--tf-border); border-radius: 3px; }
+  .progress-fill { height: 5px; background: var(--tf-navy); border-radius: 3px; transition: width 0.4s; }
+  .progress-pct { font-size: 11.5px; color: var(--tf-navy); font-weight: 600; min-width: 36px; text-align: right; }
 
   /* divider */
   .field-divider { border: none; border-top: 1px solid var(--tf-border); margin: 1.25rem 0; }
@@ -439,7 +441,7 @@
 <body>
 
 <!-- HEADER -->
-<div style="background:var(--tf-navy);">
+<div style="background:#ffffff;border-bottom:3px solid var(--tf-border);">
   <div class="header-inner">
     <div class="logo-block">
 <img src="data:image/png;base64,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" alt="TripFactory" style="height:58px;width:auto;display:block;">
@@ -952,7 +954,7 @@
 
 <!-- SUBMIT -->
 <div class="submit-area">
-  <p>Once complete: save as PDF (for your records &amp; to attach to your email), then submit the PDF + rate file to <strong style="color:#F7C000;">contracts@tripfactory.com</strong> with cc to <strong>soldout@tripfactory.com</strong> (for stop sales setup).</p>
+  <p>Complete the form, then <strong>Save as PDF</strong> and email it with your rate file to the contracts team.</p>
   <div class="btn-row">
     <button type="button" class="btn btn-secondary" onclick="clearForm()">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -963,9 +965,42 @@
       Save as PDF
     </button>
     <button type="button" class="btn btn-primary" onclick="submitForm()">
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13 2L6 9M13 2H8M13 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3H2v10h10V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Validate &amp; Submit
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M4 8l3 3 5-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Validate Form
     </button>
+  </div>
+</div>
+
+<!-- SUCCESS PANEL (hidden until validated) -->
+<div id="successPanel" style="display:none;background:#F0FAF0;border:1px solid #3AAA35;border-radius:10px;padding:1.75rem 2rem;margin-top:1.5rem;">
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+    <span style="font-size:24px;">✅</span>
+    <div>
+      <div style="font-size:16px;font-weight:600;color:#1D6F42;">Form complete — ready to send!</div>
+      <div style="font-size:13px;color:#2E7D32;margin-top:2px;">All mandatory fields are filled. Follow the steps below to submit.</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+    <div style="background:white;border-radius:8px;border:1px solid #C8E6C9;padding:1rem 1.25rem;">
+      <div style="font-size:12px;font-weight:600;color:#1D6F42;letter-spacing:0.06em;margin-bottom:6px;">STEP 1</div>
+      <div style="font-size:13.5px;font-weight:500;color:#1A1A1A;margin-bottom:8px;">Save this form as PDF</div>
+      <button type="button" class="btn btn-pdf" onclick="savePDF()" style="width:100%;justify-content:center;">
+        <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M2 2h8l3 3v10H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M10 2v3h3M5 8h5M5 11h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Save as PDF now
+      </button>
+    </div>
+    <div style="background:white;border-radius:8px;border:1px solid #C8E6C9;padding:1rem 1.25rem;">
+      <div style="font-size:12px;font-weight:600;color:#1D6F42;letter-spacing:0.06em;margin-bottom:6px;">STEP 2</div>
+      <div style="font-size:13.5px;font-weight:500;color:#1A1A1A;margin-bottom:4px;">Email PDF + rate file to:</div>
+      <div style="font-size:13px;font-weight:600;color:#1C3766;margin-bottom:4px;">contracts@tripfactory.com</div>
+      <div style="font-size:12px;color:#555;margin-bottom:8px;">CC: soldout@tripfactory.com <span style="font-size:11px;color:#888;">(for stop sales)</span></div>
+      <button type="button" onclick="copyEmail()" style="background:#1C3766;color:white;border:none;border-radius:6px;padding:7px 14px;font-size:12.5px;font-family:inherit;cursor:pointer;width:100%;" id="copyBtn">
+        📋 Copy email address
+      </button>
+    </div>
+  </div>
+  <div style="font-size:12.5px;color:#555;background:white;border-radius:6px;padding:0.75rem 1rem;border:1px solid #C8E6C9;">
+    <strong>Suggested subject line:</strong> <span id="suggestedSubject" style="color:#1C3766;font-style:italic;"></span>
   </div>
 </div>
 
@@ -1192,23 +1227,46 @@ function submitForm() {
   const missing = validateForm();
   if (missing.length > 0) {
     showToast('⚠ Please complete: ' + missing.slice(0, 3).join(', ') + (missing.length > 3 ? ` + ${missing.length - 3} more` : '') + '.', 'error');
-    // scroll to first missing field
-    const firstRequired = document.querySelector('[required]');
-    if (firstRequired) firstRequired.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // scroll to first visible required empty field
+    const form = document.getElementById('intakeForm');
+    for (const el of form.querySelectorAll('[required]')) {
+      if (el.offsetParent !== null && !el.value.trim() && el.type !== 'radio' && el.type !== 'checkbox') {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.focus();
+        break;
+      }
+    }
     return;
   }
+
+  // Build suggested subject
   const hotelName = document.querySelector('[name="hotel_name"]')?.value || 'New Property';
   const city = document.querySelector('[name="city"]')?.value || '';
-  const country = document.querySelector('[name="country"]')?.value || '';
-  const contractType = document.querySelector('[name="contract_type"]')?.value || '';
-  const subject = encodeURIComponent(`[TripFactory] ${contractType}: ${hotelName}, ${city}`);
-  const body = encodeURIComponent(
-    `Dear Contracts Team,\n\nPlease find the completed New Contract Intake Form attached as PDF.\n\n` +
-    `Property: ${hotelName}\nCity: ${city}\nCountry: ${country}\nContract Type: ${contractType}\n\n` +
-    `Please also find the rate file attached.\n\nRegards`
-  );
-  window.open(`mailto:contracts@tripfactory.com?cc=soldout%40tripfactory.com&subject=${subject}&body=${body}`);
-  showToast('✓ Email client opened! Attach your saved PDF + rate file before sending.', 'success');
+  const contractType = document.querySelector('[name="contract_type"]')?.value || 'New Contract';
+  const subject = `[TripFactory] ${contractType}: ${hotelName}${city ? ', ' + city : ''}`;
+  document.getElementById('suggestedSubject').textContent = subject;
+
+  // Show success panel
+  const panel = document.getElementById('successPanel');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  showToast('✓ Form validated! Follow the steps to send.', 'success');
+}
+
+// ── COPY EMAIL ──
+function copyEmail() {
+  navigator.clipboard.writeText('contracts@tripfactory.com').then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.style.background = '#3AAA35';
+    setTimeout(() => {
+      btn.innerHTML = '📋 Copy email address';
+      btn.style.background = '#1C3766';
+    }, 2500);
+  }).catch(() => {
+    // fallback
+    showToast('Email: contracts@tripfactory.com', '');
+  });
 }
 
 // ── SAVE PDF ──
@@ -1232,6 +1290,7 @@ function clearForm() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('submissionDate').value = today;
   document.getElementById('declarantDate').value = today;
+  document.getElementById('successPanel').style.display = 'none';
   updateProgress();
   showToast('Form cleared.', '');
 }
